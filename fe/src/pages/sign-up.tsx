@@ -62,97 +62,95 @@ export function SignUp() {
     });
 
   return (
-    <div className="grid place-items-center h-screen w-full">
-      <Card className="mx-auto w-full max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-2xl">Sign Up</CardTitle>
-          <CardDescription>
-            Enter your data below to register your account
-          </CardDescription>
-        </CardHeader>
+    <Card className="mx-auto w-full max-w-sm">
+      <CardHeader>
+        <CardTitle className="text-2xl">Sign Up</CardTitle>
+        <CardDescription>
+          Enter your data below to register your account
+        </CardDescription>
+      </CardHeader>
 
-        <CardContent>
-          <Form {...form}>
-            <form className="grid gap-4" onSubmit={handleSubmit()}>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="grid gap-2">
-                    <FormLabel htmlFor="password">Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        id="password"
-                        type="text"
-                        placeholder="John Doe"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+      <CardContent>
+        <Form {...form}>
+          <form className="grid gap-4" onSubmit={handleSubmit()}>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="grid gap-2">
+                  <FormLabel htmlFor="name">Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="name"
+                      type="text"
+                      placeholder="John Doe"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="grid gap-2">
-                    <FormLabel htmlFor="email">Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="grid gap-2">
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="m@example.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="grid gap-2">
-                    <FormLabel htmlFor="password">Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        id="password"
-                        type="password"
-                        placeholder="********"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="grid gap-2">
+                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="********"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={form.formState.isSubmitting}
-              >
-                {form.formState.isSubmitting ? (
-                  <Loader2 className="size-4 animate-spin" />
-                ) : (
-                  <span>Sign Up</span>
-                )}
-              </Button>
-            </form>
-          </Form>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <span>Sign Up</span>
+              )}
+            </Button>
+          </form>
+        </Form>
 
-          <div className="mt-4 text-center text-sm">
-            Already have an account?{" "}
-            <Link to="/sign-in" className="underline">
-              Sign in
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+        <div className="mt-4 text-center text-sm">
+          Already have an account?{" "}
+          <Button asChild variant="link" className="inline p-0">
+            <Link to="/sign-in">Sign in</Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

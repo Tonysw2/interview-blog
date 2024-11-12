@@ -7,6 +7,7 @@ import { MyPosts } from "./pages/my-posts";
 import { Post } from "./pages/post";
 import { CreatePost } from "./pages/create-post";
 import { checkSecureRoute } from "./utils/check-secure-route";
+import { AuthLayout } from "./layouts/auth-layout";
 
 export const router = createBrowserRouter([
   {
@@ -14,13 +15,20 @@ export const router = createBrowserRouter([
     element: <Navigate to="/sign-in" />,
   },
   {
-    path: "/sign-in",
-    element: <SignIn />,
+    path: "/",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/sign-in",
+        element: <SignIn />,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUp />,
+      },
+    ],
   },
-  {
-    path: "/sign-up",
-    element: <SignUp />,
-  },
+
   {
     path: "/",
     element: <AppLayout />,
