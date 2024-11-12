@@ -2,58 +2,156 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useId } from "react";
-import { Link } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
+import { sleep } from "@/utils/sleep";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
+
+const signUpSchema = z.object({
+  name: z.string().min(1, "The name is mandatory."),
+  email: z.string().email("It must be a valid email."),
+  password: z.string().min(8, "The password must have at least 8 characters."),
+});
+
+type SignUpSchema = z.infer<typeof signUpSchema>;
 
 export function SignUp() {
-  const formId = useId();
+  const navigate = useNavigate();
+
+  const form = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  const handleSubmit = () =>
+    form.handleSubmit(async (data) => {
+      try {
+        await sleep(Math.random() * 3000);
+        toast({
+          title: "Congrats!",
+          description: "Your account was created successfully.",
+        });
+        console.log(data);
+        navigate("/sign-in");
+      } catch {
+        toast({
+          title: "Ops!",
+          description: "Something went wrong on sign up.",
+        });
+      }
+    });
 
   return (
     <div className="grid place-items-center h-screen w-full">
-      <Card className="w-full max-w-md">
+      <Card className="mx-auto w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Sign Up</CardTitle>
+          <CardTitle className="text-2xl">Sign Up</CardTitle>
+          <CardDescription>
+            Enter your data below to register your account
+          </CardDescription>
         </CardHeader>
 
         <CardContent>
-          <form id={formId} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <Label>Name</Label>
-              <Input type="text" />
-            </div>
+          <Form {...form}>
+            <form className="grid gap-4" onSubmit={handleSubmit()}>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="grid gap-2">
+                    <FormLabel htmlFor="password">Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="password"
+                        type="text"
+                        placeholder="John Doe"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="flex flex-col gap-2">
-              <Label>Email</Label>
-              <Input type="text" />
-            </div>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="grid gap-2">
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="m@example.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="flex flex-col gap-2">
-              <Label>Password</Label>
-              <Input type="password" />
-            </div>
-          </form>
-        </CardContent>
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="grid gap-2">
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="password"
+                        type="password"
+                        placeholder="********"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-        <CardFooter>
-          <div className="flex flex-col gap-2 items-center w-full">
-            <Button type="submit" form={formId} className="w-full">
-              Sign up
-            </Button>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <span>Sign Up</span>
+                )}
+              </Button>
+            </form>
+          </Form>
 
-            <p className="text-sm">
-              Already have an account?{" "}
-              <Link to="/sign-in" className="underline">
-                sign in here.
-              </Link>
-            </p>
+          <div className="mt-4 text-center text-sm">
+            Already have an account?{" "}
+            <Link to="/sign-in" className="underline">
+              Sign in
+            </Link>
           </div>
-        </CardFooter>
+        </CardContent>
       </Card>
     </div>
   );

@@ -1,12 +1,11 @@
-import { Book } from "lucide-react";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { posts } from "@/constants/posts";
+import { Book } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Home() {
-  const [postsState] = useState(posts);
+export function MyPosts() {
+  const [postsState] = useState(posts.filter((post) => post.author.id === "1"));
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">

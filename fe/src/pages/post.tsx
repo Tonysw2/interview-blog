@@ -5,26 +5,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Link, useParams } from "react-router-dom";
+import { posts } from "@/constants/posts";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 export function Post() {
   const { id } = useParams();
+  const [post] = useState(posts.find((post) => post.id === id));
 
   return (
-    <div className="grid place-items-center mt-5">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Post {id}</CardTitle>
-            <Link to="/home" className="text-sm underline">
-              Back to home
-            </Link>
-          </div>
-          <CardDescription>Author Anthony Ribeiro</CardDescription>
-        </CardHeader>
-
-        <CardContent>Post details {id}</CardContent>
-      </Card>
+    <div className="grid grid-cols-1 gap-4 ">
+      {post ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>{post.title}</CardTitle>
+            <CardDescription>By {post.author.name}</CardDescription>
+          </CardHeader>
+          <CardContent>{post.content}</CardContent>
+        </Card>
+      ) : (
+        <h1>This post were not found.</h1>
+      )}
     </div>
   );
 }
