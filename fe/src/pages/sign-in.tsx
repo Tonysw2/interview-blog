@@ -1,3 +1,4 @@
+import { authenticate } from "@/api/authenticate";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,8 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { storageKeys } from "@/config/storage-keys";
 import { toast } from "@/hooks/use-toast";
-import { sleep } from "@/utils/sleep";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -42,16 +43,23 @@ export function SignIn() {
   });
 
   const handleSubmit = () =>
-    form.handleSubmit(async (data) => {
+    form.handleSubmit(async ({ email, password }) => {
       try {
-        await sleep(Math.random() * 3000);
-        localStorage.setItem(storageKeys.token, "true");
+        const { token } = await authenticate({ email, password });
+
+        localStorage.setItem(storageKeys.token, token);
+
         navigate("/home");
-        console.log(data);
-      } catch {
+      } catch (error) {
+        const isAxiosError = error instanceof AxiosError;
+
+        const message =
+          isAxiosError && error.response
+            ? error.response.data.error
+            : "Something went wrong on sign in.";
+
         toast({
-          title: "Ops!",
-          description: "Something went wrong on sign in.",
+          description: message,
         });
       }
     });

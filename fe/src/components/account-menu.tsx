@@ -1,5 +1,6 @@
+import { storageKeys } from "@/config/storage-keys";
 import { CircleUser } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -9,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { storageKeys } from "@/config/storage-keys";
 
 export function AccountMenu() {
   const navigate = useNavigate();
