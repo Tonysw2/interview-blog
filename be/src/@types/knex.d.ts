@@ -8,5 +8,13 @@ declare module "knex/types/tables" {
       EMAIL: string;
       PASSWORD_HASH: string;
     };
+
+    POSTS: {
+      ID: string;
+      TITLE: string;
+      CONTENT: string;
+      AUTHOR_ID: string;
+      CREATED_AT: string;
+    };
   }
 }

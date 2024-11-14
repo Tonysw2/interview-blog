@@ -11,7 +11,7 @@ app.register(cors);
 app.register(jwt, {
   secret: env.JWT_SECRET,
   sign: {
-    expiresIn: "10m",
+    expiresIn: "1d",
   },
 });
 
